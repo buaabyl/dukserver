@@ -1,0 +1,94 @@
+TOP_PATH	= ..
+OBJS_PATH 	= objs
+CFLAGS 		= /nologo /c \
+			  /W3 /wd4996 \
+			  /I . \
+			  /I $(TOP_PATH)/libsocket \
+			  /I $(TOP_PATH)/libhttpd \
+			  /I $(TOP_PATH)/duktape \
+			  /D TARGET_WINDOWS \
+			  /Foobjs/ \
+			  /Zi
+
+LFLAGS		= /nologo /DEBUG
+
+LIBS		= ws2_32.lib iconv/iconv.lib
+
+OBJS_DUKTAPE = \
+	$(OBJS_PATH)/duktape.obj \
+	$(OBJS_PATH)/dukpylib.obj \
+	$(OBJS_PATH)/subprocess_w32.obj
+
+OBJS_ALL = \
+	$(OBJS_DUKTAPE) \
+	$(OBJS_PATH)/http_string.obj \
+	$(OBJS_PATH)/http_map.obj \
+	$(OBJS_PATH)/http_content.obj \
+	$(OBJS_PATH)/http_server.obj \
+	$(OBJS_PATH)/http_client.obj \
+	$(OBJS_PATH)/http_sendrecv.obj \
+	$(OBJS_PATH)/http_parse.obj \
+	$(OBJS_PATH)/http_urlencode.obj \
+	$(OBJS_PATH)/http_urldecode.obj \
+	$(OBJS_PATH)/http_mpm.obj \
+	$(OBJS_PATH)/libhttp.obj \
+	$(OBJS_PATH)/wsgi_server.obj \
+	$(OBJS_PATH)/wsocket.obj \
+	$(OBJS_PATH)/http_sys_w32.obj \
+
+
+all:$(OBJS_PATH) iconv/iconv.lib shell.exe
+
+$(OBJS_PATH):
+	mkdir $(OBJS_PATH) 
+
+iconv/iconv.lib:$(TOP_PATH)/iconv.lib.7z
+	7za x -oiconv $(TOP_PATH)/iconv.lib.7z
+	touch iconv/iconv.lib
+
+all:$(OBJS_PATH) \
+	shell.exe \
+	shell2.exe \
+	duk_server.exe \
+	simple_server.exe \
+	simple_client.exe
+
+shell.exe:$(OBJS_PATH)/shell.obj $(OBJS_DUKTAPE)
+	link $(LFLAGS) $(OBJS_PATH)/shell.obj $(OBJS_DUKTAPE) iconv/iconv.lib /out:$@
+
+shell2.exe:$(OBJS_PATH)/shell2.obj httpd.lib
+	link $(LFLAGS) $(OBJS_PATH)/shell.obj httpd.lib $(LIBS) /out:$@
+
+duk_server.exe:$(OBJS_PATH)/shell2.obj httpd.lib
+	link $(LFLAGS) $(OBJS_PATH)/shell.obj httpd.lib $(LIBS) /out:$@
+
+simple_server.exe:$(OBJS_PATH)/simple_server.obj httpd.lib
+	link $(LFLAGS) $(OBJS_PATH)/simple_server.obj httpd.lib $(LIBS) /out:$@
+
+simple_client.exe:$(OBJS_PATH)/simple_client.obj httpd.lib
+	link $(LFLAGS) $(OBJS_PATH)/simple_client.obj httpd.lib $(LIBS) /out:$@
+
+httpd.lib:$(OBJS_ALL)
+	lib /nologo $(OBJS_ALL) /out:httpd.lib
+
+
+{$(TOP_PATH)/duktape}.c{$(OBJS_PATH)}.obj:
+	cl $(CFLAGS) $<
+
+{$(TOP_PATH)/libhttpd}.c{$(OBJS_PATH)}.obj:
+	cl $(CFLAGS) $<
+
+{$(TOP_PATH)/libsocket}.c{$(OBJS_PATH)}.obj:
+	cl $(CFLAGS) $<
+
+{$(TOP_PATH)/test}.c{$(OBJS_PATH)}.obj:
+	cl $(CFLAGS) $<
+
+clean:
+	rm -rf $(OBJS_PATH)/*.obj
+
+cleanall:
+	rm -rf $(OBJS_PATH)
+	rm -rf *.exe *.ilk *.pdb *.lib
+	rm -rf iconv
+

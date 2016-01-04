@@ -1,0 +1,58 @@
+test iter:
+ .key 1, .val fish
+ .key 2, .val swordfish
+ .key 4, .val berryfish
+ .key 3, .val jewfish
+test performance:
+ elements =     1000, slot =    65536, set =          0, get =          0, del =          0
+ elements =     1000, slot =    32768, set =          0, get =          0, del =          0
+ elements =     1000, slot =    16384, set =          0, get =          0, del =          0
+ elements =     1000, slot =     8192, set =          0, get =          0, del =          0
+ elements =     1000, slot =     4096, set =          0, get =          0, del =          0
+ elements =     1000, slot =     2048, set =          0, get =          0, del =          0
+ elements =     1000, slot =     1024, set =          0, get =          0, del =          0
+ elements =     1000, slot =      512, set =         10, get =          0, del =          0
+ elements =     1000, slot =      256, set =          0, get =          0, del =          0
+ elements =     1000, slot =      128, set =          0, get =          0, del =          0
+ elements =     1000, slot =       64, set =          0, get =          0, del =          0
+ elements =     1000, slot =       32, set =          0, get =          0, del =          0
+ elements =     1000, slot =       16, set =          0, get =          0, del =          0
+ elements =     1000, slot =        8, set =          0, get =         10, del =          0
+ elements =     1000, slot =        4, set =          0, get =          0, del =          0
+ elements =     1000, slot =        2, set =          0, get =         10, del =          0
+ elements =     1000, slot =        1, set =          0, get =         10, del =          0
+ elements =    10000, slot =    65536, set =         10, get =          0, del =          0
+ elements =    10000, slot =    32768, set =         10, get =          0, del =          0
+ elements =    10000, slot =    16384, set =         10, get =          0, del =          0
+ elements =    10000, slot =     8192, set =         10, get =          0, del =          0
+ elements =    10000, slot =     4096, set =         10, get =          0, del =          0
+ elements =    10000, slot =     2048, set =         10, get =          0, del =          0
+ elements =    10000, slot =     1024, set =          0, get =          0, del =         10
+ elements =    10000, slot =      512, set =         10, get =          0, del =          0
+ elements =    10000, slot =      256, set =         10, get =         10, del =          0
+ elements =    10000, slot =      128, set =         10, get =          0, del =         10
+ elements =    10000, slot =       64, set =         20, get =         20, del =         10
+ elements =    10000, slot =       32, set =         30, get =         30, del =         30
+ elements =    10000, slot =       16, set =         60, get =         50, del =         60
+ elements =    10000, slot =        8, set =         60, get =         50, del =         60
+ elements =    10000, slot =        4, set =        110, get =        110, del =        120
+ elements =    10000, slot =        2, set =        220, get =        210, del =        220
+ elements =    10000, slot =        1, set =        360, get =        352, del =        370
+ elements =   100000, slot =    65536, set =         40, get =         30, del =         30
+ elements =   100000, slot =    32768, set =         50, get =         20, del =         40
+ elements =   100000, slot =    16384, set =         40, get =         30, del =         40
+ elements =   100000, slot =     8192, set =         50, get =         30, del =         50
+ elements =   100000, slot =     4096, set =         50, get =         50, del =         50
+ elements =   100000, slot =     2048, set =         80, get =         60, del =         80
+ elements =   100000, slot =     1024, set =        110, get =        100, del =        110
+ elements =   100000, slot =      512, set =        140, get =        130, del =        150
+ elements =   100000, slot =      256, set =        240, get =        210, del =        230
+ elements =   100000, slot =      128, set =        400, get =        380, del =        400
+ elements =   100000, slot =       64, set =        730, get =        680, del =        720
+ elements =   100000, slot =       32, set =       1460, get =       1394, del =       1460
+ elements =   100000, slot =       16, set =       2930, get =       2830, del =       2920
+ elements =   100000, slot =        8, set =       5620, get =       5440, del =       5625
+ elements =   100000, slot =        4, set =      11102, get =      10712, del =      11026
+ elements =   100000, slot =        2, set =      22098, get =      21196, del =      21972
+ elements =   100000, slot =        1, set =      35995, get =      34616, del =      35147
+

@@ -1,0 +1,16 @@
+MKDIR		= mkdir
+RM			= rm
+CFLAGS 		+= -D TARGET_LINUX
+SUFFIX		= elf
+OBJS_PATH	= objs
+
+OBJS_DUKTAPE += \
+			   $(OBJS_PATH)/subprocess_linux.o
+
+OBJS_ALL 	+= $(OBJS_PATH)/usocket.o \
+			   $(OBJS_PATH)/http_sys_linux.o
+
+LIBS	 	+= -lm -lpthread -lrt
+
+include Makefile._gcc
+

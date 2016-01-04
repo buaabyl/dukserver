@@ -1,0 +1,1 @@
+throw 'Must found "_test_include/_file_be_include1.js" first, not this file!';

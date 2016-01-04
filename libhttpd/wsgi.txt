@@ -1,0 +1,30 @@
+{
+ 'HTTP_COOKIE': '.....',
+ 'HTTP_USER_AGENT': 'Mozilla/5.0 ...',
+ 'HTTP_CONNECTION': 'keep-alive',
+ 'HTTP_HOST': '127.0.0.1:1000',
+ 'HTTP_ACCEPT': 'text/html',
+ 'HTTP_ACCEPT_LANGUAGE': 'en',
+ 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, sdch'
+ 'CONTENT_LENGTH': '',
+ 'CONTENT_TYPE': '',
+ 'PATH_INFO': '/index',
+ 'QUERY_STRING': '',
+ 'REMOTE_PORT': 12234,
+ 'REQUEST_METHOD': 'GET',
+ 'REMOTE_ADDR': '127.0.0.1',
+ 'SERVER_SOFTWARE': '...',
+ 'SCRIPT_NAME': '',
+ 'SERVER_PROTOCOL': 'HTTP/1.1',
+ 'SERVER_NAME': '127.0.0.1',
+ 'SERVER_PORT': '1000',
+ 'wsgi.multiprocess': False,
+ 'wsgi.url_scheme': 'http',
+ 'wsgi.input': <socket._fileobject object at ......>,
+ 'wsgi.multithread': False,
+ 'wsgi.version': (1, 0),
+ 'wsgi.run_once': False,
+ 'wsgi.errors': <open file '<stderr>', mode 'w' at ......>,
+}
+ 
+ 

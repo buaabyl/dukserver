@@ -1,0 +1,80 @@
+TOP_PATH	= ..
+
+VPATH 		+= $(TOP_PATH)/libsocket \
+			   $(TOP_PATH)/libhttpd \
+			   $(TOP_PATH)/test \
+			   $(TOP_PATH)/duktape
+
+CFLAGS  	+= -Wall -Werror \
+			   -I $(TOP_PATH)/libsocket \
+			   -I $(TOP_PATH)/libhttpd \
+			   -I $(TOP_PATH)/duktape
+
+CFLAGS      += -ggdb
+#LIBS		+= 
+
+OBJS_DUKTAPE += \
+	$(OBJS_PATH)/duktape.o \
+	$(OBJS_PATH)/dukpylib.o 
+
+OBJS_ALL += \
+	$(OBJS_DUKTAPE) \
+	$(OBJS_PATH)/http_string.o \
+	$(OBJS_PATH)/http_map.o \
+	$(OBJS_PATH)/http_content.o \
+	$(OBJS_PATH)/http_server.o \
+	$(OBJS_PATH)/http_client.o \
+	$(OBJS_PATH)/http_sendrecv.o \
+	$(OBJS_PATH)/http_parse.o \
+	$(OBJS_PATH)/http_urlencode.o \
+	$(OBJS_PATH)/http_urldecode.o \
+	$(OBJS_PATH)/http_mpm.o \
+	$(OBJS_PATH)/libhttp.o \
+	$(OBJS_PATH)/wsgi_server.o
+
+all:$(OBJS_PATH) \
+	shell.$(SUFFIX) \
+	shell2.$(SUFFIX) \
+	duk_server.$(SUFFIX) \
+	simple_server.$(SUFFIX) \
+	simple_client.$(SUFFIX)
+
+$(OBJS_PATH):
+	@echo mkdir $(OBJS_PATH) 
+	$(MKDIR) $(OBJS_PATH)
+
+shell.$(SUFFIX):$(OBJS_PATH)/shell.o $(OBJS_DUKTAPE)
+	@echo create $@
+	@gcc $(CFLAGS) $(LFLAGS) -L. $^ $(LIBS)  -o $@
+
+shell2.$(SUFFIX):$(OBJS_PATH)/shell2.o libhttpd.a
+	@echo create $@
+	@gcc $(CFLAGS) $(LFLAGS) -L. $< -lhttpd $(LIBS)  -o $@
+
+duk_server.$(SUFFIX):$(OBJS_PATH)/duk_server.o libhttpd.a
+	@echo create $@
+	@gcc $(CFLAGS) $(LFLAGS) -L. $< -lhttpd $(LIBS)  -o $@
+
+simple_server.$(SUFFIX):$(OBJS_PATH)/simple_server.o libhttpd.a
+	@echo create $@
+	@gcc $(CFLAGS) $(LFLAGS) -L. $< -lhttpd $(LIBS)  -o $@
+
+simple_client.$(SUFFIX):$(OBJS_PATH)/simple_client.o libhttpd.a
+	@echo create $@
+	@gcc $(CFLAGS) $(LFLAGS) -L. $< -lhttpd $(LIBS) -o $@
+
+libhttpd.a:$(OBJS_ALL)
+	@echo create $@
+	@rm -rf $@
+	@ar cr $@ $^
+
+$(OBJS_PATH)/%.o:%.c
+	@echo compiling $<
+	@gcc $(CFLAGS) -c $< -o $@
+
+clean:
+	$(RM) -rf $(OBJS_PATH)
+	$(RM) -rf *.o
+	$(RM) -rf *.a
+	$(RM) -rf *.$(SUFFIX)
+

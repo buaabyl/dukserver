@@ -1,0 +1,16 @@
+MKDIR		= mkdir.exe
+RM			= rm.exe
+CFLAGS 		+= -D TARGET_WINDOWS
+SUFFIX		= exe
+OBJS_PATH	= objs
+
+OBJS_DUKTAPE += \
+			   $(OBJS_PATH)/subprocess_w32.o
+
+OBJS_ALL 	+= $(OBJS_PATH)/wsocket.o \
+			   $(OBJS_PATH)/http_sys_w32.o \
+
+LIBS	 	+= -lws2_32 -lpsapi -liconv
+
+include Makefile._gcc
+
