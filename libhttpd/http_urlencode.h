@@ -26,8 +26,8 @@
 #ifndef HTTP_URLENCODE_H_349676CF_9D87_11E5_9E45_005056C00008_INCLUDED_
 #define HTTP_URLENCODE_H_349676CF_9D87_11E5_9E45_005056C00008_INCLUDED_
 
-int http_quote(char* buffer, int len);
-int http_urlencode(http_map_t* m, char* pout);
+int http_quote(const char* buffer, int len, char** pbufout);
+int http_urlencode(http_map_t* m, char** pout);
 
 #endif
 

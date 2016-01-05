@@ -177,7 +177,11 @@ void _put_request(duk_context* ctx, http_content_t* req)
         http_map_delete(m);
 
     } else if (req->body->size > 0) {
-        duk_push_string(ctx, "wsgi.put");
+        if (strcmp(method, "PUT") == 0) {
+            duk_push_string(ctx, "wsgi.put");
+        } else {
+            duk_push_string(ctx, "wsgi.raw");
+        }
         duk_push_fixed_buffer(ctx, req->body->size);
         pbuffer = duk_get_buffer(ctx, -1, NULL);
         memcpy(pbuffer, req->body->ptr, req->body->size);

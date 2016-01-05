@@ -57,10 +57,10 @@ shell.exe:$(OBJS_PATH)/shell.obj $(OBJS_DUKTAPE)
 	link $(LFLAGS) $(OBJS_PATH)/shell.obj $(OBJS_DUKTAPE) iconv/iconv.lib /out:$@
 
 shell2.exe:$(OBJS_PATH)/shell2.obj httpd.lib
-	link $(LFLAGS) $(OBJS_PATH)/shell.obj httpd.lib $(LIBS) /out:$@
+	link $(LFLAGS) $(OBJS_PATH)/shell2.obj httpd.lib $(LIBS) /out:$@
 
-duk_server.exe:$(OBJS_PATH)/shell2.obj httpd.lib
-	link $(LFLAGS) $(OBJS_PATH)/shell.obj httpd.lib $(LIBS) /out:$@
+duk_server.exe:$(OBJS_PATH)/duk_server.obj httpd.lib
+	link $(LFLAGS) $(OBJS_PATH)/duk_server.obj httpd.lib $(LIBS) /out:$@
 
 simple_server.exe:$(OBJS_PATH)/simple_server.obj httpd.lib
 	link $(LFLAGS) $(OBJS_PATH)/simple_server.obj httpd.lib $(LIBS) /out:$@

@@ -26,7 +26,7 @@
 #ifndef HTTP_URLDECODE_H_3CDC8961_9D87_11E5_A40D_005056C00008_INCLUDED_
 #define HTTP_URLDECODE_H_3CDC8961_9D87_11E5_A40D_005056C00008_INCLUDED_
 
-int http_unquote(char* buffer, int len);
+int http_unquote(const char* buffer, int len, char** pbufout);
 http_map_t* http_urldecode(char* buffer, int len);
 
 #endif

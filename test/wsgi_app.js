@@ -18,9 +18,8 @@ function application(environ, start_response)
         );
     };
 
-    var form = environ['FORM']
+    var form = environ['wsgi.post']
     if (form) {
-        var form = environ['FORM'];
         print("POST:");
         for (var k in form) {
             var v = form[k];
@@ -30,22 +29,17 @@ function application(environ, start_response)
 
     start_response(200, {"Name":"jush"});
 
-    try {
-        var out = subprocess.check_output('uptime');
-    } catch (e) {
-        var out = '';
-        if (e instanceof subprocess.CalledProcessError) {
-            out =
-                'subprocess.CalledProcessError:\r\n' + 
-                ' e.returncode = ' + e.returncode + '\r\n' +
-                ' e.cmd        = ' + e.cmd + '\r\n' + 
-                ' e.output     = "' + e.output + '"\r\n';
-        } else {
-            out = '' + e;
+    var _subprocess = require('_subprocess');
+    var ps = _subprocess.open('uptime');
+    var stdout;
+    while (1) {
+        var out = ps.stdout.read();
+        if (out == null) {
+            break;
         }
+        stdout += out;
     }
 
-    print('response.length = ' + out.length);
-    return out;
+    return stdout;
 }
 

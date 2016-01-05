@@ -132,7 +132,7 @@ Http/Httpd Library:
 * libhttpd/http_sys_w32.c: for Windows platform
 * libhttpd/http_urldecode.c: decode url-encode-wwww
 * libhttpd/http_urldecode.h: decode url-encode-wwww
-* libhttpd/http_urlencode.c: TODO
-* libhttpd/http_urlencode.h: TODO
+* libhttpd/http_urlencode.c: encode url-encode-www
+* libhttpd/http_urlencode.h: encode url-encode-www
 * libhttpd/libhttp.c: user interface
 * libhttpd/libhttp.h: user interface

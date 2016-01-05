@@ -57,16 +57,18 @@ int _parse_hex(const char* s, int len)
     return v;
 }
 
-int http_unquote(char* buffer, int len)
+int http_unquote(const char* buffer, int len, char** pbufout)
 {
-    char* pend;
+    const char* pend;
+    const char* p;
+    char* bufout;
     char* pwrite;
-    char* p;
     char c;
 
-    p = buffer;
-    pwrite = buffer;
-    pend = buffer + len;
+    bufout  = http_malloc(sizeof(char*) * len + 1);;
+    pwrite  = bufout;
+    p       = buffer;
+    pend    = buffer + len;
 
     while (p < pend) {
         if (*p == '+') {
@@ -86,12 +88,15 @@ int http_unquote(char* buffer, int len)
             *pwrite++ = *p++;
         }
     }
+    *pwrite++ = '\0';
 
-    if (pwrite != pend) {
-        *pwrite++ = '\0';
+    if (pbufout != NULL) {
+        *pbufout = bufout;
+    } else {
+        http_free(bufout);
     }
 
-    return pwrite - buffer;
+    return pwrite - bufout;
 }
 
 http_map_t* http_urldecode(char* buffer, int len)
@@ -113,19 +118,21 @@ http_map_t* http_urldecode(char* buffer, int len)
 
     while (p < pend) {
         if (*p == '=') {
-            key = http_strndup(s, p-s);
-            http_unquote(key, p-s);
+            if (key != NULL) {
+                http_map_set(m, key, "");
+                http_free(key);
+                key = NULL;
+            }
+            http_unquote(s, p-s, &key);
             s = ++p;
 
         } else if (*p == '&') {
             if (s < p) {
                 if (key) {
-                    value = http_strndup(s, p-s);
-                    http_unquote(value, p-s);
+                    http_unquote(s, p-s, &value);
                     http_map_set(m, key, value);
                 } else {
-                    key   = http_strndup(s, p-s);
-                    http_unquote(key, p-s);
+                    http_unquote(s, p-s, &key);
                     http_map_set(m, key, "");
                 }
 
@@ -151,12 +158,10 @@ http_map_t* http_urldecode(char* buffer, int len)
 
     if (s < p) {
         if (key) {
-            value = http_strndup(s, p-s);
-            http_unquote(value, p-s);
+            http_unquote(s, p-s, &value);
             http_map_set(m, key, value);
         } else {
-            key   = http_strndup(s, p-s);
-            http_unquote(key, p-s);
+            http_unquote(s, p-s, &key);
             http_map_set(m, key, "");
         }
 
