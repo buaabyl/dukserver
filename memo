@@ -37,7 +37,7 @@ dukserver.bitbucket$ git rebase master
 dukserver.bitbucket$ git co master
 dukserver.bitbucket$ git merge working 
 dukserver.bitbucket$ git branch working --delete
-dukserver.bitbucket$ git push :working
+dukserver.bitbucket$ git push origin :working
 
 dukserver.bitbucket$ git push
 
