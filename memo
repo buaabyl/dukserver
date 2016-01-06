@@ -1,0 +1,48 @@
+#/bin/bash
+#
+# I try working on bitbucket private repo, 
+# then publish to github, try to avoid log mess.
+#
+# First Create project on github.com, then import to bitbucket.org
+#
+
+#tracking github repo on bitbucket
+~$ git clone git@bitbucket.org:buaabyl/dukserver.git dukserver.bitbukcet
+~$ cd dukserver.bitbucket
+dukserver.bitbucket$ git remote add github.com git@github.com:buaabyl/dukserver.git
+dukserver.bitbucket$ git fetch github.com
+dukserver.bitbucket$ git co -b working
+dukserver.bitbucket$ git push --set-upstream origin working
+dukserver.bitbucket$ cd ..
+
+#tracking bitbucket repo on github
+~$ git clone git@github.com:buaabyl/dukserver.git dukserver.github
+~$ cd dukserver.github
+dukserver.github$ git remote add bitbucket.org git@bitbucket.org:buaabyl/dukserver.git
+dukserver.github$ git fetch bitbucket.org
+dukserver.github$ cd ..
+
+#working on bitbucket, publish to github, 
+#so bitbucket using rebase.
+~$ cd dukserver.bitbucket
+dukserver.bitbucket$ git fetch github.com
+
+dukserver.bitbucket$ git co working 
+dukserver.bitbucket$ git co -b rebasing
+dukserver.bitbucket$ git rebase github.com/master
+
+#merge to current master, master is push to web,
+#so this MUST NOT use rebase
+dukserver.bitbucket$ git co master
+dukserver.bitbucket$ git merge rebasing
+dukserver.bitbucket$ git branch rebasing --delete
+dukserver.bitbucket$ git push
+dukserver.bitbucket$ cd ..
+
+#publish
+~$ cd dukserver.github
+dukserver.github$ git fetch bitbucket.org
+dukserver.github$ git merge bitbucket.org/master --no-ff
+dukserver.github$ git push
+dukserver.github$ cd ..
+
