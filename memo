@@ -4,6 +4,7 @@
 # then publish to github, try to avoid log mess.
 #
 # First Create project on github.com, then import to bitbucket.org
+# And make sure github.com/master eq bitbucket.org/master!
 #
 
 #tracking github repo on bitbucket
@@ -11,8 +12,6 @@
 ~$ cd dukserver.bitbucket
 dukserver.bitbucket$ git remote add github.com git@github.com:buaabyl/dukserver.git
 dukserver.bitbucket$ git fetch github.com
-dukserver.bitbucket$ git co -b working
-dukserver.bitbucket$ git push --set-upstream origin working
 dukserver.bitbucket$ cd ..
 
 #tracking bitbucket repo on github
@@ -22,27 +21,32 @@ dukserver.github$ git remote add bitbucket.org git@bitbucket.org:buaabyl/dukserv
 dukserver.github$ git fetch bitbucket.org
 dukserver.github$ cd ..
 
-#working on bitbucket, publish to github, 
-#so bitbucket using rebase.
+#working on bitbucket, publish to github, so bitbucket using rebase not merge
 ~$ cd dukserver.bitbucket
+#fix bug or modify, remember push to server avoid data lost.
+dukserver.bitbucket$ git co -b working
+dukserver.bitbucket$ git push --set-upstream origin working
+
+dukserver.bitbucket$ git co master
 dukserver.bitbucket$ git fetch github.com
+dukserver.bitbucket$ git merge github.com/master
 
 dukserver.bitbucket$ git co working 
-dukserver.bitbucket$ git co -b rebasing
-dukserver.bitbucket$ git rebase github.com/master
+dukserver.bitbucket$ git rebase master
 
-#merge to current master, master is push to web,
-#so this MUST NOT use rebase
 dukserver.bitbucket$ git co master
-dukserver.bitbucket$ git merge rebasing
-dukserver.bitbucket$ git branch rebasing --delete
+dukserver.bitbucket$ git merge working 
+dukserver.bitbucket$ git branch working --delete
+dukserver.bitbucket$ git push :working
+
 dukserver.bitbucket$ git push
+
 dukserver.bitbucket$ cd ..
 
 #publish
 ~$ cd dukserver.github
 dukserver.github$ git fetch bitbucket.org
-dukserver.github$ git merge bitbucket.org/master --no-ff
+dukserver.github$ git merge bitbucket.org/master
 dukserver.github$ git push
 dukserver.github$ cd ..
 
